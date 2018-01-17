@@ -7,7 +7,6 @@ import java.io.IOException
 import java.io.File
 
 object RootUtil {
-    private val BOOT_ANIMATION_LOCATION = "/system/media/bootanimation.zip"
     private var isRooted = false
 
     fun isRooted() = isRooted
@@ -85,16 +84,4 @@ object RootUtil {
     private fun readOnlySystem() = mountSystem("ro")
     private fun readWriteSystem() = mountSystem("rw")
 
-    fun replaceAnimation(replacement: String) {
-        readWriteSystem()
-        deleteFile(BOOT_ANIMATION_LOCATION)
-        copyFile(replacement, BOOT_ANIMATION_LOCATION)
-        chmod(BOOT_ANIMATION_LOCATION, 644)
-        readOnlySystem()
-    }
 
-    fun backupCurrentAnimation(backup: String) {
-        SetupUtil.setupFolders()
-        copyFile(BOOT_ANIMATION_LOCATION, "${SetupUtil.getBackupFolderPath()}/$backup")
-    }
-}

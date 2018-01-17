@@ -68,8 +68,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_backup -> {
-                val backup = SetupUtil.getBackupName()
-                RootUtil.backupCurrentAnimation(backup)
+                val backup = getBackupName()
+                backupCurrentAnimation(backup)
                 snackbar(window.decorView, resources.getString(R.string.snack_backup, backup))
             }
             R.id.nav_import_zip -> {
@@ -97,7 +97,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     if (filePath != null && filePath.isNotBlank()) {
                         val baseView = window.decorView
                         if (RootUtil.checkIfStillRooted(baseView)) {
-                            RootUtil.replaceAnimation(filePath)
+                        if (checkForRootAccess(baseView)) {
+                            replaceAnimation(filePath)
                             longSnackbar(baseView, resources.getString(R.string.snack_replaced_animation))
                         }
                     }

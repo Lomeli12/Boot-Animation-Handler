@@ -24,7 +24,5 @@ object SetupUtil {
             BACKUP_FOLDER.mkdir()
     }
 
-    fun getBackupName(): String = "bootanimation_${SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(Date())}.zip.bak"
 
-    fun getBackupFolderPath(): String = BACKUP_FOLDER.absolutePath
 }
