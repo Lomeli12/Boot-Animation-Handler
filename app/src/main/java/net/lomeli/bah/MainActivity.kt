@@ -11,10 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import net.lomeli.bah.util.RootUtil
-import net.lomeli.bah.util.SetupUtil
-import net.lomeli.bah.util.getContentPath
-import net.lomeli.bah.util.openFileIntent
+import net.lomeli.bah.util.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.browse
 import org.jetbrains.anko.design.longSnackbar
@@ -28,10 +25,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        RootUtil.getRoot()
-        SetupUtil.setupFolders()
+        HAS_ROOT_ACCESS = getRoot()
+        setupFolders()
         fab.setOnClickListener { view ->
-            if (RootUtil.checkIfStillRooted(view)) {
+            if (checkForRootAccess(view)) {
                 startActivityForResult(openFileIntent(resources.getString(R.string.dialog_select_zip),
                         "application/zip"), OPEN_ZIP_ID)
             }
@@ -73,7 +70,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 snackbar(window.decorView, resources.getString(R.string.snack_backup, backup))
             }
             R.id.nav_import_zip -> {
-                if (RootUtil.checkIfStillRooted(window.decorView))
+                if (checkForRootAccess(window.decorView))
                     startActivityForResult(openFileIntent(resources.getString(R.string.dialog_select_zip),
                             "application/zip"), OPEN_ZIP_ID)
             }
@@ -96,7 +93,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     info("Zip File: $filePath")
                     if (filePath != null && filePath.isNotBlank()) {
                         val baseView = window.decorView
-                        if (RootUtil.checkIfStillRooted(baseView)) {
                         if (checkForRootAccess(baseView)) {
                             replaceAnimation(filePath)
                             longSnackbar(baseView, resources.getString(R.string.snack_replaced_animation))
@@ -106,5 +102,4 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
     }
-
 }
