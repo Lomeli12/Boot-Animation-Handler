@@ -37,4 +37,5 @@ dependencies {
     // Anko Commons
     compile "org.jetbrains.anko:anko-commons:$anko_version"
     compile "org.jetbrains.anko:anko-design:$anko_version"
+    implementation 'com.github.topjohnwu:libsu:1.1.1'
 }

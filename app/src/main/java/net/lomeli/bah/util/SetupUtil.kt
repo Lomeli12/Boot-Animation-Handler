@@ -1,24 +1,30 @@
 package net.lomeli.bah.util
 
+import android.content.Context
 import android.os.Environment
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
 
 val BASE_FOLDER = File("${Environment.getExternalStorageDirectory().path}/boot_animation_handler")
-val REPO_FOLDERS = File(BASE_FOLDER, "repos")
+val REPO_FOLDER = File(BASE_FOLDER, "repos")
+val LOCAL_REPO = File(REPO_FOLDER, "local")
 val BACKUP_FOLDER = File(BASE_FOLDER, "backups")
 
-fun setupFolders() {
+fun setupFolders(context: Context) {
     if (!BASE_FOLDER.exists() || !BASE_FOLDER.isDirectory) {
-        BASE_FOLDER.mkdir()
-        REPO_FOLDERS.mkdir()
-        BACKUP_FOLDER.mkdir()
+        mkdir(BASE_FOLDER, context)
+        mkdir(REPO_FOLDER, context)
+        mkdir(LOCAL_REPO, context)
+        mkdir(BACKUP_FOLDER, context)
     }
 
-    if (!REPO_FOLDERS.exists() || !REPO_FOLDERS.isDirectory)
-        REPO_FOLDERS.mkdir()
+    if (!REPO_FOLDER.exists() || !REPO_FOLDER.isDirectory) {
+        mkdir(REPO_FOLDER, context)
+        mkdir(LOCAL_REPO, context)
+    }
+
+    if (!LOCAL_REPO.exists() || !LOCAL_REPO.isDirectory)
+        mkdir(LOCAL_REPO, context)
 
     if (!BACKUP_FOLDER.exists() || !BACKUP_FOLDER.isDirectory)
-        BACKUP_FOLDER.mkdir()
+        mkdir(BACKUP_FOLDER, context)
 }
